@@ -87,7 +87,19 @@ public class SelenoidWdHubStatusTests extends TestBase {
     public void negativeUnauthorizedUsernameTest() {
         given()
                 .log().all()
-                .auth().basic("user12", "12345")
+                .auth().basic("user12", "1234")
+                .when()
+                .get("/wd/hub/status")
+                .then()
+                .log().all()
+                .statusCode(401);
+    }
+
+    @Test
+    public void negativeUnauthorizedEmptyAuthTest() {
+        given()
+                .log().all()
+                .auth().basic("", "")
                 .when()
                 .get("/wd/hub/status")
                 .then()
