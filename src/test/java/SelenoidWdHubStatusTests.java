@@ -59,4 +59,39 @@ public class SelenoidWdHubStatusTests extends TestBase {
                 .statusCode(200)
                 .body(matchesJsonSchemaInClasspath("schemas/wdHub_schema.json"));
     }
+
+    @Test
+    public void unauthorizedStatusTest() {
+        given()
+                .log().all()
+                .when()
+                .get("/wd/hub/status")
+                .then()
+                .log().all()
+                .statusCode(401);
+    }
+
+    @Test
+    public void negativeUnauthorizedPasswordTest() {
+        given()
+                .log().all()
+                .auth().basic("user1", "12345")
+                .when()
+                .get("/wd/hub/status")
+                .then()
+                .log().all()
+                .statusCode(401);
+    }
+
+    @Test
+    public void negativeUnauthorizedUsernameTest() {
+        given()
+                .log().all()
+                .auth().basic("user12", "12345")
+                .when()
+                .get("/wd/hub/status")
+                .then()
+                .log().all()
+                .statusCode(401);
+    }
 }
