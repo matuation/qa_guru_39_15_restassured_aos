@@ -61,7 +61,7 @@ public class SelenoidWdHubStatusTests extends TestBase {
     }
 
     @Test
-    public void unauthorizedStatusTest() {
+    public void negativeUnauthorizedStatusTest() {
         given()
                 .log().all()
                 .when()
