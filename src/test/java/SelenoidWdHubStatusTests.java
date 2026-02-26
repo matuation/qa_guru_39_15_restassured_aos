@@ -1,9 +1,11 @@
+import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 
 import static io.restassured.RestAssured.given;
 import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
 import static org.hamcrest.Matchers.hasKey;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.core.StringContains.containsString;
 
 public class SelenoidWdHubStatusTests extends TestBase {
 
@@ -13,7 +15,7 @@ public class SelenoidWdHubStatusTests extends TestBase {
                 log().all()
                 .auth().basic("user1", "1234")
                 .when()
-                .get("/wd/hub/status")
+                .get("status")
                 .then()
                 .log().all()
                 .statusCode(200)
@@ -27,7 +29,7 @@ public class SelenoidWdHubStatusTests extends TestBase {
                 log().all()
                 .auth().basic("user1", "1234")
                 .when()
-                .get("/wd/hub/status")
+                .get("status")
                 .then()
                 .log().all()
                 .statusCode(200)
@@ -40,7 +42,7 @@ public class SelenoidWdHubStatusTests extends TestBase {
                 log().all()
                 .auth().basic("user1", "1234")
                 .when()
-                .get("/wd/hub/status")
+                .get("status")
                 .then()
                 .log().all()
                 .statusCode(200)
@@ -53,7 +55,7 @@ public class SelenoidWdHubStatusTests extends TestBase {
                 log().all()
                 .auth().basic("user1", "1234")
                 .when()
-                .get("/wd/hub/status")
+                .get("status")
                 .then()
                 .log().all()
                 .statusCode(200)
@@ -65,10 +67,12 @@ public class SelenoidWdHubStatusTests extends TestBase {
         given()
                 .log().all()
                 .when()
-                .get("/wd/hub/status")
+                .get("status")
                 .then()
                 .log().all()
-                .statusCode(401);
+                .statusCode(401)
+                .body(containsString("Authorization Required"))
+                .header("WWW-Authenticate", Matchers.containsString("Basic realm="));
     }
 
     @Test
@@ -77,10 +81,12 @@ public class SelenoidWdHubStatusTests extends TestBase {
                 .log().all()
                 .auth().basic("user1", "12345")
                 .when()
-                .get("/wd/hub/status")
+                .get("status")
                 .then()
                 .log().all()
-                .statusCode(401);
+                .statusCode(401)
+                .body(containsString("Authorization Required"))
+                .header("WWW-Authenticate", Matchers.containsString("Basic realm="));
     }
 
     @Test
@@ -89,10 +95,12 @@ public class SelenoidWdHubStatusTests extends TestBase {
                 .log().all()
                 .auth().basic("user12", "1234")
                 .when()
-                .get("/wd/hub/status")
+                .get("status")
                 .then()
                 .log().all()
-                .statusCode(401);
+                .statusCode(401)
+                .body(containsString("Authorization Required"))
+                .header("WWW-Authenticate", Matchers.containsString("Basic realm="));
     }
 
     @Test
@@ -101,9 +109,11 @@ public class SelenoidWdHubStatusTests extends TestBase {
                 .log().all()
                 .auth().basic("", "")
                 .when()
-                .get("/wd/hub/status")
+                .get("status")
                 .then()
                 .log().all()
-                .statusCode(401);
+                .statusCode(401)
+                .body(containsString("Authorization Required"))
+                .header("WWW-Authenticate", Matchers.containsString("Basic realm="));
     }
 }
